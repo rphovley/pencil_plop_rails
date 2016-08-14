@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608142956) do
+ActiveRecord::Schema.define(version: 20160814161735) do
 
   create_table "api_connections", force: :cascade do |t|
     t.integer  "user_id",     limit: 4
@@ -24,14 +24,26 @@ ActiveRecord::Schema.define(version: 20160608142956) do
 
   add_index "api_connections", ["user_id"], name: "index_api_connections_on_user_id", using: :btree
 
-  create_table "facebook_users", force: :cascade do |t|
-    t.string   "facebook_user_id",      limit: 255, null: false
-    t.string   "facebook_access_token", limit: 255, null: false
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+  create_table "stories", force: :cascade do |t|
+    t.integer  "author_id",  limit: 4,   null: false
+    t.string   "title",      limit: 255, null: false
+    t.string   "genre",      limit: 255, null: false
+    t.integer  "likes",      limit: 4,   null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "facebook_users", ["facebook_user_id"], name: "index_facebook_users_on_facebook_user_id", using: :btree
+  add_index "stories", ["author_id"], name: "index_stories_on_author_id", unique: true, using: :btree
+
+  create_table "story_lines", force: :cascade do |t|
+    t.integer  "author_id",  limit: 4,   null: false
+    t.string   "sentence",   limit: 255, null: false
+    t.integer  "likes",      limit: 4,   null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "story_lines", ["author_id"], name: "index_story_lines_on_author_id", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -47,19 +59,15 @@ ActiveRecord::Schema.define(version: 20160608142956) do
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
     t.string   "roles",                  limit: 255
-    t.integer  "facebook_user_id",       limit: 4
     t.string   "first_name",             limit: 255
     t.string   "last_name",              limit: 255
     t.integer  "age",                    limit: 4
     t.string   "phone",                  limit: 255
-    t.string   "description",            limit: 255
     t.string   "image_uri",              limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["facebook_user_id"], name: "index_users_on_facebook_user_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "api_connections", "users"
-  add_foreign_key "users", "facebook_users"
 end
