@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   petergate(roles: [:admin, :editor], multiple: false)                                      ##
   ############################################################################################ 
   has_many :api_connections, class_name: "::Api::Connection"
+  has_many :stories
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,

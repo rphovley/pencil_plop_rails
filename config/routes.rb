@@ -13,6 +13,10 @@ Rails.application.routes.draw do
       put "user", to: "users#update"
     end
   end
+
+  resources :users
+  resources :stories
+  resources :story_lines
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
