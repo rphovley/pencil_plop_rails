@@ -27,9 +27,10 @@
 #  mobile_reset_token     :string
 #
 
-class UserSerializer < ActiveModel::Serializer
+class UsersSerializer < ActiveModel::Serializer
   attributes :id, :email, :first_name, :last_name, :gender, :address, :city, :state, :country, :zipcode, :role, :image_url
-  has_many :stores
+  has_many :stories
+  has_many :story_lines
 
   def gender
     object.gender || User::GENDERS[0]
